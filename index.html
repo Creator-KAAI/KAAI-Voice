@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h2>🎤 Speak to KAAI</h2>
+    <button onclick="start()">Start Speaking</button>
+    <p id="command"></p>
+
+    <script>
+      const command = document.getElementById('command');
+
+      function start() {
+        const rec = new webkitSpeechRecognition();
+        rec.lang = 'en-US';
+        rec.onresult = e => {
+          const text = e.results[0][0].transcript.toLowerCase();
+          command.innerText = "You said: " + text;
+
+          if (text.includes("chat")) {
+            window.location.href = "https://your-chatgpt-screen-link";
+          } else if (text.includes("note")) {
+            window.location.href = "https://your-notes-screen-link";
+          } else if (text.includes("calendar")) {
+            window.location.href = "https://your-calendar-screen-link";
+          } else if (text.includes("home")) {
+            window.location.href = "https://your-home-screen-link";
+          }
+        };
+        rec.start();
+      }
+    </script>
+  </body>
+</html>
