@@ -1,34 +1,43 @@
 <!DOCTYPE html>
 <html>
-  <body>
-    <h2>🎤 Speak to KAAI</h2>
-    <button onclick="start()">Start Speaking</button>
-    <p id="command"></p>
+<head>
+  <title>KAAI - Voice Input</title>
+</head>
+<body>
+  <h2>🎙️ Voice Input - KAAI</h2>
+  <p>Click below to start voice recognition</p>
+  <button onclick="start()">Start</button>
+  <p id="command">...</p>
 
-    <script>
-      const command = document.getElementById('command');
+  <script>
+    const command = document.getElementById('command');
 
-      function start() {
-        const rec = new webkitSpeechRecognition();
-        rec.lang = 'en-US';
-        rec.onresult = e => {
-          const text = e.results[0][0].transcript.toLowerCase();
-          command.innerText = "You said: " + text;
+    function start() {
+      const rec = new webkitSpeechRecognition(); // for Chrome
+      rec.lang = 'en-US';
+      rec.onresult = (e) => {
+        const text = e.results[0][0].transcript.toLowerCase();
+        command.innerText = "You said: " + text;
 
-          if (text.includes("chat")) {
-            window.location.href = "https://your-chatgpt-screen-link";
-          } else if (text.includes("note")) {
-            window.location.href = "https://your-notes-screen-link";
-          } else if (text.includes("calendar")) {
-            window.location.href = "https://your-calendar-screen-link";
-          } else if (text.includes("home")) {
-            window.location.href = "https://your-home-screen-link";
-          }
-        };
-        rec.start();
-      }
-    </script>
-    
-    <p><a href="voice.html" target="_blank">🎤 Try Voice Input</a></p>
- </body>
+        // 🔁 Redirect based on keywords
+        if (text.includes("chat")) {
+          window.location.href = "https://chat.openai.com/";
+        } else if (text.includes("note")) {
+          window.location.href = "https://www.notion.so/";
+        } else if (text.includes("calendar")) {
+          window.location.href = "https://calendar.google.com/";
+        } else if (text.includes("home")) {
+          window.location.href = "https://www.google.com/";
+        } else {
+          alert("No matching command found.");
+        }
+      };
+      rec.onerror = (err) => {
+        command.innerText = "Error occurred: " + err.error;
+      };
+      rec.start();
+    }
+  </script>
+</body>
 </html>
+
